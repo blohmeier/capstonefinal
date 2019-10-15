@@ -4,23 +4,23 @@ pipeline {
 	    
         stage('Build') {
             steps {
-                echo 'Running build automation'
+                echo 'Building'
             }
         }
         
-        stage('Lint HTML') {
+        stage('Linting the HTML') {
         steps {
           sh 'tidy -q -e *.html'
           }
 		  }
         
-         stage('Build Docker Image') {
+         stage('Building the Docker Image') {
             when {
                 branch 'master'
             }
             steps {
                 script {
-                    sh 'docker build . -t blohmeier/udacity-capstone-project'
+                    sh 'docker build . -t blohmeier/capstone-final'
                     }
                 }
          }
@@ -31,9 +31,9 @@ pipeline {
             }
             steps {
                 script {
-                 withDockerRegistry( credentialsId: "docker_hub_login") {
-                 sh 'docker tag blohmeier/udacity-capstone-project:latest blohmeier/udacity-capstone-project'
-                 sh 'docker push blohmeier/udacity-capstone-project'
+                 withDockerRegistry( credentialsId: "dockerhub_login") {
+                 sh 'docker tag blohmeier/capstone-final:latest blohmeier/capstone-final'
+                 sh 'docker push blohmeier/capstone-final'
 
             }
                 }
@@ -42,13 +42,13 @@ pipeline {
 	    
 	    stage('Remove old Docker Container') {
       		steps {
-			sh 'docker container rm udacity-capstone -f'
+			sh 'docker container rm capstone-final -f'
       }
     }
 	    
 	    stage('Build Docker Container') {
       		steps {
-			sh 'docker run --name udacity-capstone -d -p 8000:80 blohmeier/udacity-capstone-project'
+			sh 'docker run --name capstone-final -d -p 8000:80 blohmeier/capstone-final'
       }
     }
 
