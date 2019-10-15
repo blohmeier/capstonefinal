@@ -1,7 +1,7 @@
 pipeline {
     environment {
         registry = "blohmeier/capstone-final"
-        registryCredential = ‘dockerhub’
+        registryCredential = "dockerhub"
 }
     agent any
     stages {
