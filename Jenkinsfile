@@ -31,7 +31,7 @@ pipeline {
             }
             steps {
                 script {
-                 withDockerRegistry( credentialsId: "dockerhub_login") {
+                 withDockerRegistry( credentialsId: "dockerhub") {
                  sh 'docker tag blohmeier/capstone-final:latest blohmeier/capstone-final'
                  sh 'docker push blohmeier/capstone-final'
 
