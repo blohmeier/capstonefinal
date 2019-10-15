@@ -20,7 +20,7 @@ pipeline {
             }
             steps {
                 script {
-                    sh 'docker build . -t blohmeier/capstone-final'
+                    sh 'sudo docker build . -t blohmeier/capstone-final'
                     }
                 }
          }
