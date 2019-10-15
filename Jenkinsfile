@@ -1,0 +1,60 @@
+pipeline {
+    agent any
+    stages {
+	    
+        stage('Build') {
+            steps {
+                echo 'Running build automation'
+            }
+        }
+        
+        stage('Lint HTML') {
+        steps {
+          sh 'tidy -q -e *.html'
+          }
+		  }
+        
+         stage('Build Docker Image') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    sh 'docker build . -t blohmeier/udacity-capstone-project'
+                    }
+                }
+         }
+             
+         stage('Push Docker Image') {
+             when {
+                branch 'master'
+            }
+            steps {
+                script {
+                 withDockerRegistry( credentialsId: "docker_hub_login") {
+                 sh 'docker tag blohmeier/udacity-capstone-project:latest blohmeier/udacity-capstone-project'
+                 sh 'docker push blohmeier/udacity-capstone-project'
+
+            }
+                }
+            }
+        }
+	    
+	    stage('Remove old Docker Container') {
+      		steps {
+			sh 'docker container rm udacity-capstone -f'
+      }
+    }
+	    
+	    stage('Build Docker Container') {
+      		steps {
+			sh 'docker run --name udacity-capstone -d -p 8000:80 blohmeier/udacity-capstone-project'
+      }
+    }
+
+    
+    
+    
+    
+    }
+}
