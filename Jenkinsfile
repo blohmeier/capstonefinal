@@ -16,14 +16,8 @@ pipeline {
              }
 	}
         stage('Building the Docker Image') {
-            when {
-                branch 'master'
-            }
             steps {
-		    script {
 			    sh 'docker build . -t blohmeier/capstone-final'
-		    }
-	    }
          }
          stage('Push Docker Image') {
              when {
