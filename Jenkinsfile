@@ -7,8 +7,9 @@ pipeline {
     stages {
 	stage('Test') {
             steps {
-                #!/bin/bash
-		sh 'node --version'
+                bash '''#!/bin/bash
+			node --version
+		'''
             }
         }
         stage('Build') {
