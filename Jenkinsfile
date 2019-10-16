@@ -18,6 +18,7 @@ pipeline {
         stage('Building the Docker Image') {
             steps {
 			    sh 'docker build . -t blohmeier/capstone-final'
+	    }
          }
          stage('Push Docker Image') {
              when {
