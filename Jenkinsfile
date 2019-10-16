@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 script {
-		    sh '#!/usr/bin/env bash'
+		    sh '#!/bin/bash'
 		    sh 'docker build . -t blohmeier/capstone-final'
 		}
 	    }
