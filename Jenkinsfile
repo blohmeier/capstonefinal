@@ -20,19 +20,23 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'docker build . -t blohmeier/capstone-final'
-            }
+		    script {
+			    sh 'docker build . -t blohmeier/capstone-final'
+		    }
+	    }
          }
          stage('Push Docker Image') {
              when {
                 branch 'master'
             }
             steps {
-                 withDockerRegistry( credentialsId: "dockerhub") {
-                 sh 'docker tag blohmeier/capstone-final:latest blohmeier/capstone-final'
-                 sh 'docker push blohmeier/capstone-final'
-                 }
-            }
+		    script {
+			    withDockerRegistry( credentialsId: "dockerhub") {
+				    sh 'docker tag blohmeier/capstone-final:latest blohmeier/capstone-final'
+				    sh 'docker push blohmeier/capstone-final'
+			    }
+		    }
+	    }
 	 }
 	 stage('Remove old Docker Container') {
       		steps {
