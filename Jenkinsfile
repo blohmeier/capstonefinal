@@ -16,22 +16,28 @@ pipeline {
              }
 	}
         stage('Building the Docker Image') {
+            when {
+                branch 'master'
+            }
             steps {
-			    sh 'docker build . -t blohmeier/capstone-final'
+                script {
+		    sh '#!/usr/bin/env bash'
+		    sh 'docker build . -t blohmeier/capstone-final'
+		}
 	    }
          }
          stage('Push Docker Image') {
              when {
                 branch 'master'
-            }
-            steps {
-		    script {
-			    withDockerRegistry( credentialsId: "dockerhub") {
-				    sh 'docker tag blohmeier/capstone-final:latest blohmeier/capstone-final'
-				    sh 'docker push blohmeier/capstone-final'
-			    }
-		    }
-	    }
+             }
+             steps {
+	         script {
+		     withDockerRegistry( credentialsId: "dockerhub") {
+		         sh 'docker tag blohmeier/capstone-final:latest blohmeier/capstone-final'
+			 sh 'docker push blohmeier/capstone-final'
+		     }
+		 }
+	     }
 	 }
 	 stage('Remove old Docker Container') {
       		steps {
